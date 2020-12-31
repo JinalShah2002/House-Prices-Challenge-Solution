@@ -9,6 +9,10 @@ The model is evaluated using the Root Mean Square Error, as this is the metric w
   
 Note: you may use my solution as a reference; however, I would strongly advise you to tackle this challenge on your own. The only way you will get better at machine learning is to practice it on your own. I do not condone nor am I responsible for any cheating that may occur as a result of this repository.
 ## What tools are used in this project?
+* [Pandas](https://pandas.pydata.org/docs/getting_started/index.html)
+* [Numpy](https://numpy.org)
+* [Matplotlib](https://matplotlib.org)
+* [Seaborn](https://seaborn.pydata.org)
 ## Useful Resources
 ## About the author
 I am an undergraduate student @ Rutgers University New Brunswick, who is pursing bachelor degrees in Computer Science and Cognitive Science. Furthermore, I am pursing a certificate in Data Science. I have a passion for AI ,and I am always intriguied by its power. Feel free to contact me via [Linkedln](https://www.linkedin.com/in/jinalshah2002/).   
