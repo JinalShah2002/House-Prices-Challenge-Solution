@@ -13,8 +13,9 @@ Note: you may use my solution as a reference; however, I would strongly advise y
 * [Numpy](https://numpy.org)
 * [Matplotlib](https://matplotlib.org)
 * [Seaborn](https://seaborn.pydata.org)
-* [Sklearn](https://scikit-learn.org/stable/)
+* [Scikit-Learn](https://scikit-learn.org/stable/)
 ## Useful Resources
+* [Hands-On Machine Learning with Scikit-Learn, Keras, and Tensorflow](https://www.amazon.com/Hands-Machine-Learning-Scikit-Learn-TensorFlow/dp/1492032646)
 ## About the author
 I am an undergraduate student @ Rutgers University New Brunswick, who is pursing bachelor degrees in Computer Science and Cognitive Science. Furthermore, I am pursing a certificate in Data Science. I have a passion for AI ,and I am always intriguied by its power. Feel free to contact me via [Linkedln](https://www.linkedin.com/in/jinalshah2002/).   
 Enjoy!  
