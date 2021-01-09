@@ -3,7 +3,7 @@
 ## What is this repository?
 As an upcoming ML engineer, I challenged myself to put my machine learning skills to the test. I challenged myself by tackling the [Housing Prices Challenge on Kaggle](https://www.kaggle.com/c/house-prices-advanced-regression-techniques). The goal of this challenge is to predict the prices of houses in Ames, Iowa based on a given set of features. To be exact, there are 79 features in total. This project allows the engineer (in this case myself) to practice critical Data Science & Machine Learning techniques.    
     
-This repository is organized via 4 folders: Submissions, Data, Workflow, and Models. In the Submissions folder, you will see the various submissions that I have made. In the Data folder, you will find the necessary datasets as well as any other necessary information. In the Workflow folder, you will see my coded solution to this problem. Finally, in the models folder, you will see the various models that I have saved.  
+This repository is organized via 4 folders: Submissions, Data, Code, and Models. In the Submissions folder, you will see the various submissions that I have made. In the Data folder, you will find the necessary datasets as well as any other necessary information. In the Code folder, you will see my various Jupyter Notebooks & Python Scripts for the project. Finally, in the models folder, you will see the various models that I have saved.  
     
 The model is evaluated using the Root Mean Square Error, as this is the metric we are trying to minimize. My best model has a RMSE of N/A. 
   
