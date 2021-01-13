@@ -15,9 +15,13 @@ from Transformations import CatYear, GarageDec, Selector, TransformNum, ReplaceM
 
 class Preparation:
     # Constructor
-    def __init__(self, data):
-        # Storing the data
-        self.data = data
+    def __init__(self, X,y,train):
+        # Storing the feature matrix & the dependent vector
+        self.X = X
+        self.y = y
+
+        # Marking whether the data is a test file or a training file
+        self.train = train
 
         # a list of features to remove
         self.remove_features = ['BsmtFinType2', 'GarageQual', 'GarageCond', 'Electrical', '3SsnPorch', 'BsmtFinSF2',
@@ -28,6 +32,10 @@ class Preparation:
                                 'BsmtCond',
                                 'Heating', 'CentralAir', 'Functional', 'PavedDrive', 'SaleType', 'BsmtHalfBath',
                                 'KitchenAbvGr', 'YrSold']
+        
+        # Removing ID if it not a test set
+        if self.train:
+            self.remove_features.append('Id')
 
         # lists of numerical + categorical features
         self.num_features = ['LotArea', 'TotalBsmtSF', '1stFlrSF', '2ndFlrSF', 'GrLivArea', 'GarageArea', 'OpenPorchSF',
@@ -50,8 +58,8 @@ class Preparation:
             'GarageFinish': 'N/A',
             'GarageBltDec': 'N/A',
             'MasVnrType': 'None',
-            'LotFrontage': np.nanmedian(self.data['LotFrontage']),
-            'MasVnrArea': np.nanmedian(self.data['MasVnrArea']),
+            'LotFrontage': np.nanmedian(self.X['LotFrontage']),
+            'MasVnrArea': np.nanmedian(self.X['MasVnrArea']),
         }
 
         # Dictionary to store the transformations for the numerical features
@@ -126,4 +134,9 @@ class Preparation:
     # Transforming the data
     def transform(self):
         pipeline = self.pipeline()
-        return pipeline.fit_transform(self.data)
+        
+        # Adjusting the return statement based on dataset type
+        if self.train:
+            return pipeline.fit_transform(self.X,self.y)
+        else:
+            return pipeline.transform(self.X)
