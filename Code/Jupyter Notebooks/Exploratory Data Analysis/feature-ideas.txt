@@ -1,0 +1,6 @@
+This file will contain possible features I could make in the future:
+
+1. Features to check whether house has basement or not & if house has garage or not
+2. Check if a house has a regular LotShape or not
+3. If basement has <= 1 bath and if basement has >1 bath
+4. If house has > 4 bedrooms

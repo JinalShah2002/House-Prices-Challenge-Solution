@@ -30,7 +30,10 @@ class Selector(BaseEstimator, TransformerMixin):
 
     # Transform method
     def transform(self, X, y=None):
-        return X[self.features].values
+        try:
+            return X[self.features].values
+        except KeyError:
+            return KeyError
 
 
 """
@@ -51,7 +54,10 @@ class Remove(BaseEstimator, TransformerMixin):
 
     # Transform method
     def transform(self, X, y=None):
-        return X.drop(self.features, axis=1)
+        try:
+            return X.drop(self.features, axis=1)
+        except AttributeError:
+            return AttributeError
 
 
 """
@@ -75,10 +81,13 @@ class ReplaceMissing(BaseEstimator, TransformerMixin):
 
     # Transform method
     def transform(self, X, y=None):
+        temp = X.copy()  # Created a temp to preserve original
         for i in self.missing_dict.keys():
-            X[i] = X[i].fillna(self.missing_dict[i])
-
-        return X
+            try:
+                temp[i] = X[i].fillna(self.missing_dict[i])
+            except KeyError:
+                return KeyError
+        return temp
 
 
 """ 
@@ -102,14 +111,18 @@ class TransformNum(BaseEstimator, TransformerMixin):
 
     # Transform method
     def transform(self, X, y=None):
+        temp = X.copy()
         for i in self.transform_dict.keys():
-            if self.transform_dict[i] == 'log(x+1)':
-                X[i] = np.log(X[i] + 1)
-            elif self.transform_dict[i] == 'log(x)':
-                X[i] = np.log(X[i])
-            elif self.transform_dict[i] == 'x ** .5':
-                X[i] = X[i] ** .5
-        return X
+            try:
+                if self.transform_dict[i] == 'log(x+1)':
+                    temp[i] = np.log(X[i] + 1)
+                elif self.transform_dict[i] == 'log(x)':
+                    temp[i] = np.log(X[i])
+                elif self.transform_dict[i] == 'x ** .5':
+                    temp[i] = X[i] ** .5
+            except KeyError:
+                return KeyError
+        return temp
 
 
 """ 

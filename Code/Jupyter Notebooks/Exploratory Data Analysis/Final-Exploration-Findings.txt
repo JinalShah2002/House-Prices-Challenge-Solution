@@ -1,0 +1,29 @@
+This file will contain my final data exploration findings:
+
+1. Drop BsmtFinType2, GarageQual, GarageCond, Electrical, 3SsnProch, BsmtFinSF2, MiscVal,Id, LowQualFinSF, PoolArea,
+    ScreenPorch, EnclosedPorch, Alley, PoolQC, Fence, MiscFeature, Street, LandContour, Utilities, LotConfig, LandSlope,
+    Condition1, Condition2, BldgType, RoofStyle, RoofMatl, ExterCond, BsmtCond, Heating, CentralAir, Functional, PavedDrive,
+    SaleType, BsmtHalfBath, KitchenAbvGr, YrSold.
+2. Missing Values:
+	1. Replace missing values in FirePlaceQu with NF
+	2. Replace Missing Values of Lot Frontage with median
+	3. Replace Missing Values of MasVnrArea with the median
+	4. Replace Missing Values in BsmtQual ,BsmtCond,BsmtExposure, BsmtFinType1, GarageType, GarageFinish, GarageBltYrDec with N/A
+	5. Replace Missing Values in MasVnrType with None
+3. Feature Engineering:
+	1. Create GarageYrBltDec (remove GarageYrBlt) --> categorizes GarageYrBlt into decades
+	2. Create RemodAdd2 (remove YearRemodAdd), a feature that categorizes whether or not a house has been remodeled before or after 2000
+	3. Create YearBuilt2 (remove YearBuilt), a feature that categorizes houses based on whether or not they were built prior to or after 1975
+4. True Numerical Features:
+	1. Final List: LotArea, TotalBsmtSF, 1stFlrSF, 2ndFlrSF, GrLivArea, GarageArea, OpenPorchSF, BsmtFinSF1, BsmtUnfSF, WoodDeckSF, MasVnrArea, LotFrontage
+	2. Feature Scale all these features
+	3. Transformations:
+		1. log(x+1) --> LotArea, TotalBsmtSF, 1stFlrSF, 2ndFlrSF, GrLivArea, GarageArea, OpenPorchSF
+		2. log(x) --> LotFrontage
+		3. x**.5 --> BsmtFinSF1, BsmtUnfSF, WoodDeckSF, MasVnrArea
+5. Categorical Features:
+	1. Final List: MSZoning, LotShape, Neighborhood, HouseStyle, Exterior1st, Exterior2nd, MasVnrType,
+	ExterQual, Foundation, BsmtQual, BsmtExposure, BsmtFinType1, HeatingQC, KitchenQual, FireplaceQu, GarageType, GarageFinish,
+	SaleCondition, GarageYrBltDec, MSSubClass, OverallQual, OverallCond, BsmtFullBath, FullBath, HalfBath, BedroomAbvGr, TotRmsAbvGrd,
+	Fireplaces, GarageCars, MoSold.
+6. Apply log(x) on SalePrice
