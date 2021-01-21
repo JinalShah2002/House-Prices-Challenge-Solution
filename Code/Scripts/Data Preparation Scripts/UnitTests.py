@@ -13,7 +13,7 @@ final transformed training data that I feed to my models is correct.
 import unittest
 import pandas as pd
 import numpy as np
-from Transformations import Selector, Remove, ReplaceMissing, TransformNum,GarageDec, CatYear
+from Transformations import Selector, Remove, ReplaceMissing, TransformNum, GarageDec, CatYear
 from sklearn.pipeline import Pipeline
 
 
