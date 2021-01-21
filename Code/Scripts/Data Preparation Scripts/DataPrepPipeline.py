@@ -46,7 +46,7 @@ class Preparation:
                              'HeatingQC', 'KitchenQual', 'FireplaceQu', 'GarageType', 'GarageFinish', 'SaleCondition',
                              'GarageBltDec', 'MSSubClass', 'OverallQual', 'OverallCond', 'BsmtFullBath', 'FullBath',
                              'HalfBath', 'BedroomAbvGr', 'TotRmsAbvGrd', 'Fireplaces', 'GarageCars', 'MoSold',
-                             'RemodAdd2', 'YearBuilt2']
+                             'YearRemodAdd2', 'YearBuilt2']
 
         # Dictionary to store specific missing value replacements --> for categorical features
         self.missing_dict = {
@@ -87,24 +87,12 @@ class Preparation:
 
     # Defining the Pipeline
     def pipeline(self):
-        # Feature Engineering Pipeline
-        feature_eng = Pipeline([
+        # Building the Pipeline with all Custom Transformations, except Selector()
+        custom_transform = Pipeline([
             ('GarageBltDec', GarageDec()),
             ('CatByYear', CatYear(self.cat_year)),
-        ])
-
-        # Removal Pipeline
-        removal = Pipeline([
             ('Removal', Remove(self.remove_features)),
-        ])
-
-        # Dealing with missing features
-        missing = Pipeline([
             ('Missing', ReplaceMissing(self.missing_dict)),
-        ])
-
-        # Transforming the numerical features (log,etc)
-        transform_num = Pipeline([
             ('Transform', TransformNum(self.transform)),
         ])
 
@@ -122,10 +110,7 @@ class Preparation:
 
         # Full Pipeline
         pipeline = FeatureUnion([
-            ('feature_eng', feature_eng),
-            ('removal', removal),
-            ('missing', missing),
-            ('transform_num', transform_num),
+            ('custom_transform', custom_transform),
             ('num_pipeline', num_pipeline),
             ('cat_pipeline', cat_pipeline),
         ])
@@ -138,6 +123,6 @@ class Preparation:
         
         # Adjusting the return statement based on dataset type
         if self.train:
-            return pipeline.fit_transform(self.X,self.y)
+            return pipeline.fit_transform(self.X, self.y)
         else:
             return pipeline.transform(self.X)

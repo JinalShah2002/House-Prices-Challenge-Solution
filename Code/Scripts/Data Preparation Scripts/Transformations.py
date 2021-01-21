@@ -146,9 +146,16 @@ class GarageDec(BaseEstimator, TransformerMixin):
 
     # Transform method
     def transform(self, X, y=None):
-        X['GarageBltDec'] = int(X['GarageYrBlt'] / 10) * 100
-        X = X.drop('GarageYrBlt', axis=1)
-        return X
+        # Creating necessary information
+        copy = X.copy()
+        copy['GarageBltDec'] = copy['GarageYrBlt']
+
+        # Changing the values to decades
+        for i in range(copy.shape[0]):
+            copy.loc[i, 'GarageBltDec'] = int(copy.loc[i, 'GarageYrBlt'] / 10) * 10
+
+        copy = copy.drop('GarageYrBlt', axis=1)
+        return copy
 
 
 """
@@ -172,15 +179,16 @@ class CatYear(BaseEstimator, TransformerMixin):
 
     # Transform method
     def transform(self, X, y=None):
+        copy = X.copy()
         for i in self.features_dict.keys():
             temp = i + '2'
-            X[temp] = 'N'
+            copy[temp] = 'N'
 
-            for j in range(len(X.shape[0])):
-                if X[i][j] >= self.features_dict[i]:
-                    X[temp] = 'Y'
+            for j in range(copy.shape[0]):
+                if copy.loc[j, i] >= self.features_dict[i]:
+                    copy.loc[j, temp] = 'Y'
 
         # Dropping the originals
-        X = X.drop(self.features_dict.keys(), axis=1)
-        return X
+        copy = copy.drop(self.features_dict.keys(), axis=1)
+        return copy
 

@@ -1,0 +1,10 @@
+This file will give me a list of methods/transformations that need to have unit tests run on. I will list the method & whether or not tests have been run.
+
+Transformations:
+1. Selector -> Passed all Tests
+2. Remove -> Passed all Tests
+3. ReplaceMissing -> Passed all Tests
+4. TransformNum -> Passed all Tests
+5. GarageDec -> Passed all Tests
+6. CatYear -> Passed all Tests
+7. Custom Transformers all together -> Passed all Tests

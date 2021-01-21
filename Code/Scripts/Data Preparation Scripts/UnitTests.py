@@ -14,6 +14,7 @@ import unittest
 import pandas as pd
 import numpy as np
 from Transformations import Selector, Remove, ReplaceMissing, TransformNum,GarageDec, CatYear
+from sklearn.pipeline import Pipeline
 
 
 # Creating the Class
@@ -147,10 +148,10 @@ class TestTransformers(unittest.TestCase):
         Test Status: Passed 
         """
         missing_dict = {
-            'Name':'N/A',
-            'Age':np.nanmedian(test_data['Age']),
-            'Height':np.nanmedian(test_data['Height']),
-            'Grade':'N/A',
+            'Name': 'N/A',
+            'Age': np.nanmedian(test_data['Age']),
+            'Height': np.nanmedian(test_data['Height']),
+            'Grade': 'N/A',
             'Reading Level': 'N/A'
         }
         temp = ReplaceMissing(missing_dict)
@@ -168,16 +169,14 @@ class TestTransformers(unittest.TestCase):
         Test Status: Passed
         """
         missing_dict = {
-            'Job':'N/A'
+            'Job': 'N/A'
         }
         temp = ReplaceMissing(missing_dict)
         result = temp.fit_transform(test_data)
-        self.assertEqual(result,KeyError)
-
+        self.assertEqual(result, KeyError)
 
     def test_transformNum(self):
         test_data = pd.DataFrame({
-            'Name': ['Jinal', 'Juan', 'Joe', 'John', 'Sarah', 'Mike', 'Rachel'],
             'Age': [18, 21, 24, 25, 30, 19, 25],
             'Height': [6.5, 5.5, 5.25, 6, 5.9, 5, 6.8],
             'Weight': [120, 130, 140, 150, 125, 133, 145],
@@ -226,39 +225,112 @@ class TestTransformers(unittest.TestCase):
         self.assertEqual(type(result), pd.DataFrame)
         self.assertEqual(result['Age'].all(), test_data['Age'].all())
 
-
     def test_GarageDec(self):
         test_data = pd.DataFrame({
-            'Name': ['Jinal', 'Juan', 'Joe', 'John', 'Sarah', 'Mike', 'Rachel'],
-            'Age': [18, 21, 24, 25, 30, 19, 25],
-            'Height': [6.5, 5.5, 5.25, 6, 5.9, 5, 6.8],
-            'Weight': [120, 130, 140, 150, 125, 133, 145],
-            'Grade': [11, 11, 11, 12, 10, 9, 11],
-            'Math Level': [1, 2, 3, 4, 5, 6, 7],
-            'Reading Level': [1, 2, 3, 4, 5, 6, 7],
-            'Programming Ability': [1, 2, 3, 4, 5, 6, 7],
+            'GarageYrBlt': [2011, 1999, 2000, 2019, 1964, 1976, 1904],
         })
 
-        temp = GarageDec()
-        return temp
+        """ 
+        Test One -> Testing that GarageDec creates a feature to categorize GarageYrBlt into decades
+        Status: Passed
+        """
+        obj = GarageDec()
+        result = obj.fit_transform(test_data)
+        
+        self.assertEqual(result['GarageBltDec'][0], 2010)
+        self.assertEqual(result['GarageBltDec'][1], 1990)
+        self.assertEqual(result['GarageBltDec'][2], 2000)
+        self.assertEqual(result['GarageBltDec'][6], 1900)
+        self.assertEqual(type(result), pd.DataFrame)
+        self.assertRaises(KeyError, lambda: result['GarageYrBlt'])
+        self.assertIn('GarageYrBlt', test_data)
 
     def test_CatYear(self):
         test_data = pd.DataFrame({
-            'Name': ['Jinal', 'Juan', 'Joe', 'John', 'Sarah', 'Mike', 'Rachel'],
-            'Age': [18, 21, 24, 25, 30, 19, 25],
-            'Height': [6.5, 5.5, 5.25, 6, 5.9, 5, 6.8],
-            'Weight': [120, 130, 140, 150, 125, 133, 145],
-            'Grade': [11, 11, 11, 12, 10, 9, 11],
-            'Math Level': [1, 2, 3, 4, 5, 6, 7],
-            'Reading Level': [1, 2, 3, 4, 5, 6, 7],
-            'Programming Ability': [1, 2, 3, 4, 5, 6, 7],
+            'YearRemod': [2011, 1999, 2000, 2019, 1964, 1976, 1904],
         })
 
-        temp = CatYear({})
-        return temp
+        """  
+        Test One -> Testing If CatYear transformer transforms YearRemod into boolean
+                    that categorizes a year based on if it is prior to or after 2000 
+        Status: Passed 
+        """
+        features = {'YearRemod': 2000}
+        year = CatYear(features)
+        result = year.fit_transform(test_data)
+        self.assertEqual(type(result), pd.DataFrame)
+        self.assertEqual(result['YearRemod2'][0], 'Y')
+        self.assertEqual(result['YearRemod2'][1], 'N')
+        self.assertEqual(result['YearRemod2'][2], 'Y')
+        self.assertRaises(KeyError, lambda: result['YearRemod'])
+        self.assertIn('YearRemod',test_data)
 
     def test_CustomPipeline(self):
-        return 0
+        test_data = pd.DataFrame({
+            'Name': ['Jinal', 'Juan', 'Joe', np.nan, 'Sarah', 'Mike', 'Rachel'],
+            'Age': [18, 21, 24, 25, np.nan, 19, 25],
+            'Height': [6.5, 5.5, np.nan, 6, np.nan, 5, 6.8],
+            'Weight': [120, 130, 140, 150, 125, 133, 145],
+            'Grade': [11, 11, 11, 12, np.nan, 9, 11],
+            'Math Level': [1, 2, 3, 4, 5, 6, 7],
+            'Reading Level': [1, 2, 3, 4, np.NaN, 6, 7],
+            'Programming Ability': [1, 2, 3, 4, 5, 6, 7],
+            'YearRemod': [2011, 1999, 2000, 2019, 1964, 1976, 1904],
+            'GarageYrBlt': [2011, 1999, 2000, 2019, 1964, 1976, 1904],
+        })
+
+        # Build necessary data structures
+        cat_year = {'YearRemod': 2000}
+        removal = ['Programming Ability', 'Math Level']
+        missing = {
+            'Name': 'None',
+            'Age': np.nanmedian(test_data['Age']),
+            'Height': np.nanmedian(test_data['Height']),
+            'Grade': 'None',
+            'Reading Level': 'None',
+        }
+        num = {
+            'Age': 'log(x+1)',
+            'Weight': 'x ** .5',
+        }
+
+        # Building the Pipeline
+        pipeline = Pipeline([
+            ('GarageBltDec', GarageDec()),
+            ('CatByYear', CatYear(cat_year)),
+            ('Removal', Remove(removal)),
+            ('Missing', ReplaceMissing(missing)),
+            ('Transform', TransformNum(num)),
+        ])
+        result = pipeline.fit_transform(test_data)
+
+        """ 
+        Tests
+        """
+        # Checking the data type
+        self.assertEqual(type(result), pd.DataFrame)
+
+        # Making sure the feature engineering worked
+        self.assertRaises(KeyError, lambda: result['GarageYrBlt'])
+        self.assertRaises(KeyError, lambda: result['YearRemod'])
+        self.assertEqual(result['YearRemod2'][0], 'Y')
+        self.assertEqual(result['YearRemod2'][1], 'N')
+        self.assertEqual(result['YearRemod2'][2], 'Y')
+        self.assertEqual(result['GarageBltDec'][0], 2010)
+        self.assertEqual(result['GarageBltDec'][3], 2010)
+
+        # Checking the removal portion
+        self.assertRaises(KeyError, lambda: result['Programming Ability'])
+        self.assertRaises(KeyError, lambda: result['Math Level'])
+
+        # Checking the missing values portion
+        self.assertEqual(result['Name'][3], 'None')
+        self.assertEqual(result['Height'][2], np.nanmedian(test_data['Height']))
+
+        # Checking the transforming portion
+        self.assertEqual(result['Age'][0], np.log(test_data['Age'][0] + 1))
+        self.assertEqual(result['Age'][4], np.log(np.nanmedian(test_data['Age']) + 1))
+        self.assertEqual(result['Weight'][0], test_data['Weight'][0] ** .5)
 
 
 # Runner

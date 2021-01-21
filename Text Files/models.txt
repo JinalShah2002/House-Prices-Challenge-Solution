@@ -1,0 +1,10 @@
+This text file will list all the models to try:
+1. Regular Linear Regression
+2. Ridge Regression
+3. Lasso Regression
+4. Stochastic Gradient Descent Regressor
+5. Support Vector Regression
+6. K Nearest Neighbors Regression
+7. Decision Trees
+8. Random Forest
+9. Catboost
