@@ -8,6 +8,15 @@ This repository is organized via 4 folders: Submissions, Data, Code, and Models.
 The model is evaluated using the Root Mean Square Error, as this is the metric we are trying to minimize. My best model has a RMSE of N/A. 
   
 Note: you may use my solution as a reference; however, I would strongly advise you to tackle this challenge on your own. The only way you will get better at machine learning is to practice it on your own. I do not condone nor am I responsible for any cheating that may occur as a result of this repository.
+## Machine Learning Project Checklist:
+This checklist is what I use for every ML project. This goes through every major step & ensures that I have done everything correctly.  
+1. Framing the Problem - Complete
+2. Getting the Data - Complete
+3. Exploring the Data - Complete
+4. Data Preprocessing - Complete
+5. Model Development - Current Step
+6. Model Tuning - Not done yet
+7. Deploying Model on Test Set & Presentation of Solution - Not done yet
 ## What tools are used in this project?
 * [Pandas](https://pandas.pydata.org/docs/getting_started/index.html)
 * [Numpy](https://numpy.org)
