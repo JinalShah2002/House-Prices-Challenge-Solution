@@ -5,6 +5,3 @@ Transformations:
 2. Remove -> Passed all Tests
 3. ReplaceMissing -> Passed all Tests
 4. TransformNum -> Passed all Tests
-5. GarageDec -> Passed all Tests
-6. CatYear -> Passed all Tests
-7. Custom Transformers all together -> Passed all Tests

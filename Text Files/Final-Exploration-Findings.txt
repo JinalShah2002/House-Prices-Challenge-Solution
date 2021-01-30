@@ -8,7 +8,7 @@ This file will contain my final data exploration findings:
 	1. Replace missing values in FirePlaceQu with NF
 	2. Replace Missing Values of Lot Frontage with median
 	3. Replace Missing Values of MasVnrArea with the median
-	4. Replace Missing Values in BsmtQual ,BsmtCond,BsmtExposure, BsmtFinType1, GarageType, GarageFinish, GarageBltYrDec with N/A
+	4. Replace Missing Values in BsmtQual, BsmtExposure, BsmtFinType1, GarageType, GarageFinish, GarageBltYrDec with N/A
 	5. Replace Missing Values in MasVnrType with None
 3. Feature Engineering:
 	1. Create GarageYrBltDec (remove GarageYrBlt) --> categorizes GarageYrBlt into decades
