@@ -24,9 +24,11 @@ This checklist is what I use for every ML project. This goes through every major
 * [Seaborn](https://seaborn.pydata.org)
 * [Scikit-Learn](https://scikit-learn.org/stable/)
 * [Unittest](https://docs.python.org/3/library/unittest.html)
+* [Sys](https://docs.python.org/3/library/sys.html)
 ## References
 * [Hands-On Machine Learning with Scikit-Learn, Keras, and Tensorflow](https://www.amazon.com/Hands-Machine-Learning-Scikit-Learn-TensorFlow/dp/1492032646)
 * [Medium Article about Unit Testing in Python](https://medium.com/techtofreedom/unit-testing-in-python-23b129add2b)
+* [Medium Article about sys module usuage](https://dkhambu.medium.com/importing-files-in-python-repository-28ab49fade37)
 ## About the author
 I am an undergraduate student @ Rutgers University New Brunswick, who is pursing bachelor degrees in Computer Science and Cognitive Science. Furthermore, I am pursing a certificate in Data Science. I have a passion for AI ,and I am always intriguied by its power. Feel free to contact me via [Linkedln](https://www.linkedin.com/in/jinalshah2002/).   
 Enjoy!  
