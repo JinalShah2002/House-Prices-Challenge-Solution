@@ -6,10 +6,11 @@ This script will house my custom data preprocessing pipeline
 
 """
 # Basic Setup
+import pandas as pd
 import numpy as np
-from sklearn.preprocessing import StandardScaler, OneHotEncoder
-from sklearn.pipeline import Pipeline, FeatureUnion
-from Tranformers import Remove, Replace, Selector, TransformNum
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import Pipeline
+from Tranformers import Remove, Replace, TransformNum
 
 
 class Preparation:
@@ -46,7 +47,7 @@ class Preparation:
                              'HeatingQC', 'KitchenQual', 'FireplaceQu', 'GarageType', 'GarageFinish', 'SaleCondition',
                              'MSSubClass', 'OverallQual', 'OverallCond', 'BsmtFullBath', 'FullBath',
                              'HalfBath', 'BedroomAbvGr', 'TotRmsAbvGrd', 'Fireplaces', 'GarageCars', 'MoSold',
-                             'GarageDec', 'CatRemod', 'CatYearBuilt']
+                              'GarageDec', 'CatRemod', 'CatYearBuilt']
 
         # Dictionary to store specific missing value replacements --> for categorical features
         self.missing_dict = {
@@ -78,6 +79,14 @@ class Preparation:
             'MasVnrArea': 'x ** .5',
         }
 
+        # Initializing the Transformers
+        self.custom_transform = Pipeline([
+            ('Removal', Remove.Remove(self.remove_features)),
+            ('Missing', Replace.ReplaceMissing(self.missing_dict)),
+            ('Transform', TransformNum.TransformNum(self.num_transform)),
+        ])
+        self.scaler = StandardScaler()
+
     """ 
     Feature Engineering
     
@@ -87,7 +96,7 @@ class Preparation:
     """
     def feature_eng(self):
         # Garage Dec Feature
-        self.X['GarageDec'] = self.X['GarageYrBlt'] // 10 * 10
+        self.X['GarageDec'] = str(self.X['GarageYrBlt'] // 10 * 10)
 
         # Cat Year Feature
         self.X['CatRemod'] = 'N'
@@ -105,44 +114,35 @@ class Preparation:
         self.X = self.X.drop('YearRemodAdd', axis=1)
         self.X = self.X.drop('YearBuilt', axis=1)
 
-    # Building the Pipeline
-    def pipeline(self):
+    # Performing Transformations
+    def transform(self):
         # Calling feature engineering beforehand
         self.feature_eng()
-        
-        # Building the Pipeline with all Custom Transformations, except Selector()
-        custom_transform = Pipeline([
-            ('Removal', Remove.Remove(self.remove_features)),
-            ('Missing', Replace.ReplaceMissing(self.missing_dict)),
-            ('Transform', TransformNum.TransformNum(self.num_transform)),
-        ])
 
-        # Transforming the numerical features
-        num_pipeline = Pipeline([
-            ('Selector', Selector.Selector(self.num_features)),
-            ('Feature Scale', StandardScaler())
-        ])
+        # Preliminary Transformations
+        self.X[self.cat_features] = self.X[self.cat_features].astype(str)
 
-        # Categorical Pipeline
-        cat_pipeline = Pipeline([
-            ('Selector', Selector.Selector(self.cat_features)),
-            ('Encoding', OneHotEncoder()),
-        ])
-
-        # Full Pipeline
-        pipeline = FeatureUnion([
-            ('custom_transform', custom_transform),
-            ('num_pipeline', num_pipeline),
-    #        ('cat_pipeline', cat_pipeline),
-        ])
-
-        return pipeline
-
-    # Transforming the data
-    def transform(self):
-        pipeline = self.pipeline()
-        # Adjusting the return statement based on dataset type
         if self.train:
-            return pipeline.fit_transform(self.X, self.y)
+            self.X = self.custom_transform.fit_transform(self.X, self.y)
+            self.X[self.num_features] = self.scaler.fit_transform(self.X[self.num_features], self.y)
+            self.X = pd.get_dummies(self.X)
         else:
-            return pipeline.transform(self.X)
+            self.X = self.custom_transform.transform(self.X)
+            self.X[self.num_features] = self.scaler.transform(self.X[self.num_features])
+            self.X = pd.get_dummies(self.X)
+
+        return self.X
+    """
+    
+    Creating Setters for X, y ,and train
+    
+    """
+    def set_X(self, X):
+        self.X = X
+
+    def set_y(self, y):
+        self.y = y
+
+    def set_train(self, train):
+        self.train = train
+

@@ -13,66 +13,11 @@ final transformed training data that I feed to my models is correct.
 import unittest
 import pandas as pd
 import numpy as np
-from Tranformers import Remove, Replace, Selector, TransformNum
+from Tranformers import Remove, Replace, TransformNum
 
 
 # Creating the Class
 class TestTransformers(unittest.TestCase):
-
-    def test_selector(self):
-        # Initializing basic things
-        test_data = pd.DataFrame({
-            'Name': ['Jinal', 'Juan', 'Joe', 'John', 'Sarah', 'Mike', 'Rachel'],
-            'Age': [18, 21, 24, 25, 30, 19, 25],
-            'Height': [6.5, 5.5, 5.25, 6, 5.9, 5, 6.8],
-            'Weight': [120, 130, 140, 150, 125, 133, 145],
-            'Grade': [11, 11, 11, 12, 10, 9, 11],
-            'Math Level': [1, 2, 3, 4, 5, 6, 7],
-            'Reading Level': [1, 2, 3, 4, 5, 6, 7],
-            'Programming Ability': [1, 2, 3, 4, 5, 6, 7],
-        })
-
-        """ 
-        Test One -> getting features of same data type
-        Status: Passed
-        """
-        features = ['Age','Height','Reading Level']
-        nump_data = test_data[features].values
-        selector = Selector.Selector(features)
-        result = selector.fit_transform(test_data)
-        self.assertEqual(result.all(), nump_data.all())
-        self.assertEqual(type(result), np.ndarray)
-        
-        """
-        Test Two -> getting features of different data types
-        Status: Passed
-        """
-        features = ['Name','Age','Height','Math Level','Programming Ability']
-        nump_data = test_data[features].values
-        selector = Selector.Selector(features)
-        result = selector.fit_transform(test_data)
-        self.assertEqual(result.all(), nump_data.all())
-        self.assertEqual(type(result), np.ndarray)
-
-        """ 
-        Test Three -> throws exception when trying to get a feature not in data 
-        Status: Passed
-        """
-        features = ['Name','Age','Job','Math Level']
-        selector = Selector.Selector(features)
-        results = selector.fit_transform(test_data)
-        self.assertEqual(results, KeyError)
-
-        """
-        Test Four -> getting a single feature
-        Status: Not Tested 
-        """
-        features = ['Name']
-        nump_data = test_data[features].values
-        selector = Selector.Selector(features)
-        result = selector.fit_transform(test_data)
-        self.assertEqual(result.all(), nump_data.all())
-        self.assertEqual(type(result), np.ndarray)
 
     def test_remove(self):
         # Initializing Basic Information
