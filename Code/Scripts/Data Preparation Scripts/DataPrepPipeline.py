@@ -126,12 +126,13 @@ class Preparation:
             self.X = self.custom_transform.fit_transform(self.X, self.y)
             self.X[self.num_features] = self.scaler.fit_transform(self.X[self.num_features], self.y)
             self.X = pd.get_dummies(self.X)
+            self.y = np.log(self.y + 1)
         else:
             self.X = self.custom_transform.transform(self.X)
             self.X[self.num_features] = self.scaler.transform(self.X[self.num_features])
             self.X = pd.get_dummies(self.X)
 
-        return self.X
+        return self.X, self.y
     """
     
     Creating Setters for X, y ,and train
