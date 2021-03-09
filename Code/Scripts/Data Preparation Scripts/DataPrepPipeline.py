@@ -121,6 +121,7 @@ class Preparation:
 
         # Preliminary Transformations
         self.X[self.cat_features] = self.X[self.cat_features].astype(str)
+        self.X[self.num_features] = self.X[self.num_features].astype(float)
 
         if self.train:
             self.X = self.custom_transform.fit_transform(self.X, self.y)
@@ -130,7 +131,7 @@ class Preparation:
         else:
             self.X = self.custom_transform.transform(self.X)
             self.X[self.num_features] = self.scaler.transform(self.X[self.num_features])
-            self.X = pd.get_dummies(self.X)
+            self.X = pd.get_dummies(self.X, dtype=int)
 
         return self.X, self.y
     """
