@@ -13,7 +13,7 @@ final transformed training data that I feed to my models is correct.
 import unittest
 import pandas as pd
 import numpy as np
-from Tranformers import Remove, Replace, TransformNum
+from Tranformers import Remove, TransformNum
 
 
 # Creating the Class
@@ -72,53 +72,6 @@ class TestTransformers(unittest.TestCase):
         test = remove.fit_transform(test_data)
         self.assertEqual(test_data.keys().all(), test.keys().all())
         self.assertEqual(type(test), pd.DataFrame)
-
-
-
-    def test_replaceMissing(self):
-        test_data = pd.DataFrame({
-            'Name': ['Jinal', 'Juan', 'Joe', np.nan, 'Sarah', 'Mike', 'Rachel'],
-            'Age': [18, 21, 24, 25, np.nan, 19, 25],
-            'Height': [6.5, 5.5, np.nan, 6, np.nan, 5, 6.8],
-            'Weight': [120, 130, 140, 150, 125, 133, 145],
-            'Grade': [11, 11, 11, 12, np.nan, 9, 11],
-            'Math Level': [1, 2, 3, 4, 5, 6, 7],
-            'Reading Level': [1, 2, 3, 4, np.NaN, 6, 7],
-            'Programming Ability': [1, 2, 3, 4, 5, 6, 7],
-        })
-
-        """
-        Test One -> Replacing all missing values
-        Test Status: Passed 
-        """
-        self.assertEqual(test_data['Name'].isnull().sum(), 1)
-        self.assertEqual(test_data['Age'].isnull().sum(), 1)
-
-        missing_dict = {
-            'Name': 'N/A',
-            'Age': np.nanmedian(test_data['Age']),
-            'Height': np.nanmedian(test_data['Height']),
-            'Grade': 'N/A',
-            'Reading Level': 'N/A'
-        }
-        temp = Replace.ReplaceMissing(missing_dict)
-        result = temp.fit_transform(test_data)
-        self.assertEqual(type(result), pd.DataFrame)
-        self.assertEqual(result['Name'].isnull().sum(), 0)
-        self.assertEqual(test_data['Age'].isnull().sum(), 0)
-        self.assertEqual(test_data['Age'][4], np.nanmedian(test_data['Age']))
-        self.assertEqual(result['Reading Level'][4], 'N/A')
-
-        """  
-        Test Two -> trying to replace values of keys that don't exist
-        Test Status: Passed
-        """
-        missing_dict = {
-            'Job': 'N/A'
-        }
-        temp = Replace.ReplaceMissing(missing_dict)
-        result = temp.fit_transform(test_data)
-        self.assertEqual(result, KeyError)
 
     def test_transformNum(self):
         test_data = pd.DataFrame({

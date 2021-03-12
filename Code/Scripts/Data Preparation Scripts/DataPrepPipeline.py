@@ -10,7 +10,7 @@ import pandas as pd
 import numpy as np
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
-from Tranformers import Remove, Replace, TransformNum
+from Tranformers import Remove, TransformNum
 
 
 class Preparation:
@@ -47,20 +47,28 @@ class Preparation:
                              'HeatingQC', 'KitchenQual', 'FireplaceQu', 'GarageType', 'GarageFinish', 'SaleCondition',
                              'MSSubClass', 'OverallQual', 'OverallCond', 'BsmtFullBath', 'FullBath',
                              'HalfBath', 'BedroomAbvGr', 'TotRmsAbvGrd', 'Fireplaces', 'GarageCars', 'MoSold',
-                              'GarageDec', 'CatRemod', 'CatYearBuilt']
+                              'CatRemod', 'CatYearBuilt']
 
         # Dictionary to store specific missing value replacements --> for categorical features
         self.missing_dict = {
-            'FireplaceQu': 'NF',
-            'BsmtQual': 'N/A',
-            'BsmtExposure': 'N/A',
-            'BsmtFinType1': 'N/A',
-            'GarageType': 'N/A',
-            'GarageFinish': 'N/A',
-            'GarageDec': 'N/A',
-            'MasVnrType': 'None',
+            'BsmtFinSF1': np.nanmedian(self.X['BsmtFinSF1']),
+            'BsmtUnfSF': np.nanmedian(self.X['BsmtUnfSF']),
+            'TotalBsmtSF': np.nanmedian(self.X['TotalBsmtSF']),
             'LotFrontage': np.nanmedian(self.X['LotFrontage']),
             'MasVnrArea': np.nanmedian(self.X['MasVnrArea']),
+            'MSZoning': 'RL',
+            'MasVnrType': 'None',
+            'BsmtQual': 'None',
+            'BsmtExposure': 'None',
+            'BsmtFinType1': 'None',
+            'FireplaceQu': 'None',
+            'GarageFinish': 'None',
+            'GarageType': 'None',
+            'Exterior1st': 'VinylSd',
+            'Exterior2nd': 'VinylSd',
+            'BsmtFullBath': 0.0,
+            'KitchenQual': 'TA',
+            'GarageCars': 2.0,
         }
 
         # Dictionary to store the transformations for the numerical features
@@ -82,11 +90,16 @@ class Preparation:
         # Initializing the Transformers
         self.custom_transform = Pipeline([
             ('Removal', Remove.Remove(self.remove_features)),
-            ('Missing', Replace.ReplaceMissing(self.missing_dict)),
             ('Transform', TransformNum.TransformNum(self.num_transform)),
         ])
         self.scaler = StandardScaler()
 
+    # This function works with the missing values in the data
+    def replace_missing(self):
+        temp = ''
+        for key in self.missing_dict.keys():
+            temp = self.X[key].fillna(self.missing_dict[key])
+            self.X[key] = temp
     """ 
     Feature Engineering
     
@@ -95,9 +108,6 @@ class Preparation:
     
     """
     def feature_eng(self):
-        # Garage Dec Feature
-        self.X['GarageDec'] = str(self.X['GarageYrBlt'] // 10 * 10)
-
         # Cat Year Feature
         self.X['CatRemod'] = 'N'
         self.X['CatYearBuilt'] = 'N'
@@ -116,6 +126,9 @@ class Preparation:
 
     # Performing Transformations
     def transform(self):
+        # Replacing the missing values
+        self.replace_missing()
+
         # Calling feature engineering beforehand
         self.feature_eng()
 
