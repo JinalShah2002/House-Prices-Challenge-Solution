@@ -56,6 +56,7 @@ class Preparation:
             'TotalBsmtSF': np.nanmedian(self.X['TotalBsmtSF']),
             'LotFrontage': np.nanmedian(self.X['LotFrontage']),
             'MasVnrArea': np.nanmedian(self.X['MasVnrArea']),
+            'GarageArea': np.nanmedian(self.X['GarageArea']),
             'MSZoning': 'RL',
             'MasVnrType': 'None',
             'BsmtQual': 'None',
@@ -119,6 +120,21 @@ class Preparation:
             if self.X.loc[index, 'YearBuilt'] >= 1975:
                 self.X.loc[index, 'CatYearBuilt'] = 'Y'
 
+        # Editing some categorical features before string conversion
+        self.X['BsmtFullBath'] = self.X['BsmtFullBath'].astype(int)
+        self.X['GarageCars'] = self.X['GarageCars'].astype(int)
+        for index in self.X.index:
+            if self.X.loc[index,'MSSubClass'] == 150:
+                self.X.loc[index,'MSSubClass'] = 160
+            if self.X.loc[index, 'FullBath'] == 4:
+                self.X.loc[index, 'FullBath'] = 3
+            if self.X.loc[index, 'TotRmsAbvGrd'] == 13 or self.X.loc[index, 'TotRmsAbvGrd'] == 15:
+                self.X.loc[index, 'TotRmsAbvGrd'] = 12
+            if self.X.loc[index, 'Fireplaces'] == 4:
+                self.X.loc[index, 'Fireplaces'] = 3
+            if self.X.loc[index, 'GarageCars'] == 5:
+                self.X.loc[index, 'GarageCars'] = 4
+
         # Removing the original features
         self.X = self.X.drop('GarageYrBlt', axis=1)
         self.X = self.X.drop('YearRemodAdd', axis=1)
@@ -145,6 +161,13 @@ class Preparation:
             self.X = self.custom_transform.transform(self.X)
             self.X[self.num_features] = self.scaler.transform(self.X[self.num_features])
             self.X = pd.get_dummies(self.X, dtype=int)
+            self.X['HouseStyle_2.5Fin'] = 0
+            self.X['Exterior1st_ImStucc'] = 0
+            self.X['Exterior1st_Stone'] = 0
+            self.X['Exterior2nd_Other'] = 0
+            self.X['BedroomAbvGr_8'] = 0
+            self.X['TotRmsAbvGrd_14'] = 0
+            self.X['TotRmsAbvGrd_2'] = 0
 
         return self.X, self.y
     """
