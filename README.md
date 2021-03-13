@@ -14,8 +14,8 @@ This checklist is what I use for every ML project. This goes through every major
 2. Getting the Data - Complete
 3. Exploring the Data - Complete
 4. Data Preprocessing - Complete
-5. Model Development - Current Step
-6. Model Tuning - Not done yet
+5. Model Development - Complete
+6. Model Tuning/Ensemble Learning - On this step
 7. Deploying Model on Test Set & Presentation of Solution - Not done yet
 ## What tools are used in this project?
 * [Pandas](https://pandas.pydata.org/docs/getting_started/index.html)
