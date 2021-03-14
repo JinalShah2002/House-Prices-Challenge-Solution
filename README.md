@@ -5,7 +5,7 @@ As an upcoming ML engineer, I challenged myself to put my machine learning skill
     
 This repository is organized via 4 folders: Submissions, Data, Code, and Models. In the Submissions folder, you will see the various submissions that I have made. In the Data folder, you will find the necessary datasets as well as any other necessary information. In the Code folder, you will see my various Jupyter Notebooks & Python Scripts for the project. Finally, in the models folder, you will see the various models that I have saved.  
     
-The model is evaluated using the Root Mean Square Error, as this is the metric we are trying to minimize. My best model has a RMSE of __0.14069__. This currently ranks in the __top 48%__. Furthermore, the best model, currently, is the un-tuned CatBoost Model. 
+The model is evaluated using the Root Mean Square Error, as this is the metric we are trying to minimize. My best model has a RMSE of __0.14069__. This currently ranks in the __top 48%__. In reality, my solution would be much higher because 1)some solutions have an unfeasible RMSE of 0.0 and 2)the solutions that have a RMSE of 0.00044 incorporated data from other sources besides the provided data. Also, it's worth mentioning that the best model, currently, is the un-tuned CatBoost Model. 
   
 Note: you may use my solution as a reference; however, I would strongly advise you to tackle this challenge on your own. The only way you will get better at machine learning is to practice it on your own. I do not condone nor am I responsible for any cheating that may occur as a result of this repository.
 ## Machine Learning Project Checklist:
