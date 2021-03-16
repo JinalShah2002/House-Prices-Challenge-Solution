@@ -15,28 +15,22 @@ from Tranformers import Remove, TransformNum
 
 class Preparation:
     # Constructor
-    def __init__(self, X, y=None, train=False):
+    def __init__(self, data, train=True, submission=False):
         # Storing the feature matrix & the dependent vector
-        self.X = X
-        self.y = y
+        self.y = data['SalePrice']
+        self.X = data.drop('SalePrice', axis=1)
 
         # Marking whether the data is a test file or a training file
         self.train = train
+        self.submission = submission
 
         # a list of features to remove
-        self.remove_features = ['BsmtFinType2', 'GarageQual', 'GarageCond', 'Electrical', '3SsnPorch', 'BsmtFinSF2',
+        self.remove_features = ['Id','BsmtFinType2', 'GarageQual', 'GarageCond', 'Electrical', '3SsnPorch', 'BsmtFinSF2',
                                 'MiscVal', 'LowQualFinSF', 'PoolArea', 'ScreenPorch', 'EnclosedPorch', 'Alley',
                                 'PoolQC', 'Fence', 'MiscFeature', 'Street', 'LandContour', 'Utilities',
                                 'LotConfig', 'LandSlope', 'Condition1', 'Condition2', 'BldgType', 'RoofStyle',
                                 'RoofMatl', 'ExterCond', 'BsmtCond', 'Heating', 'CentralAir', 'Functional',
                                 'PavedDrive', 'SaleType', 'BsmtHalfBath', 'KitchenAbvGr', 'YrSold']
-        
-        # Removing ID if it not a test set
-        if not self.train:
-            self.id = X['Id']
-            self.remove_features.append('Id')
-        else:
-            self.remove_features.append('Id')
 
         # lists of numerical + categorical features
         self.num_features = ['LotArea', 'TotalBsmtSF', '1stFlrSF', '2ndFlrSF', 'GrLivArea', 'GarageArea', 'OpenPorchSF',
@@ -143,7 +137,8 @@ class Preparation:
             self.X = pd.get_dummies(self.X)
             self.y = np.log(self.y + 1)
             self.X['MSSubClass_150'] = 0
-        else:
+            self.X['SalePrice'] = self.y
+        elif self.submission:
             self.X = self.custom_transform.transform(self.X)
             self.X[self.num_features] = self.scaler.transform(self.X[self.num_features])
             self.X = pd.get_dummies(self.X, dtype=int)
@@ -151,19 +146,37 @@ class Preparation:
             self.X['Exterior1st_ImStucc'] = 0
             self.X['Exterior1st_Stone'] = 0
             self.X['Exterior2nd_Other'] = 0
+        else:
+            self.X = self.custom_transform.transform(self.X)
+            self.X[self.num_features] = self.scaler.transform(self.X[self.num_features])
+            self.X = pd.get_dummies(self.X, dtype=int)
+            self.y = np.log(self.y + 1)
+            self.X['SalePrice'] = self.y
+            self.X['Neighborhood_Blueste'] = 0
+            self.X['OverallQual_1'] = 0
+            self.X['OverallQual_2'] = 0
+            self.X['Exterior1st_AsphShn'] = 0
+            self.X['Exterior1st_CBlock'] = 0
+            self.X['Exterior1st_ImStucc'] = 0
+            self.X['Exterior1st_Stone'] = 0
+            self.X['Exterior2nd_CBlock'] = 0
+            self.X['Exterior2nd_Other'] = 0
+            self.X['Foundation_Stone'] = 0
+            self.X['HeatingQC_Po'] = 0
+            self.X['GarageType_2Types'] = 0
+            self.X['MSSubClass_150'] = 0
 
-        return self.X, self.y
-    """
-    
-    Creating Setters for X, y ,and train
-    
-    """
-    def set_X(self, X):
-        self.X = X
+        return self.X
 
-    def set_y(self, y):
-        self.y = y
+    # Method to change data to testing
+    def change_data_test(self, data):
+        self.y = data['SalePrice']
+        self.X = data.drop('SalePrice', axis=1)
+        self.train = False
+        self.submission = False
 
-    def set_train(self, train):
-        self.train = train
-
+    # Method to change data to submission
+    def change_data_sub(self, data):
+        self.train = False
+        self.submission = True
+        self.X = data
