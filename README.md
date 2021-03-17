@@ -41,7 +41,7 @@ In reality, there are infinite adjustments I could make to improve my score; how
 * Feature Importance: Further feature selection. Use my model to make better selections for features.
 * Maybe incorporate outside data like many credible top-ranked solutions.
 ## Closing Remarks
-This project was very enjoyable ,and I definitely learning a lot along the way! I would recommend this challenge to anyone who is looking to dive into Machine Learning & Data Science. It is quite simple, and the dataset is relatively small & not overwhelming. Overall, this challenge was really fun and a great learning experience!
+This project was very enjoyable ,and I definitely learned a lot along the way! I would recommend this challenge to anyone who is looking to dive into Machine Learning & Data Science. It is quite simple, and the dataset is relatively small & not overwhelming. Overall, this challenge was really fun and a great learning experience!
 ## About the author
 I am an undergraduate student @ Rutgers University New Brunswick, who is pursing bachelor degrees in Computer Science and Cognitive Science. Furthermore, I am pursing a certificate in Data Science. I have a passion for AI ,and I am always intriguied by its power. Feel free to contact me via [Linkedln](https://www.linkedin.com/in/jinalshah2002/).   
 Enjoy!  
