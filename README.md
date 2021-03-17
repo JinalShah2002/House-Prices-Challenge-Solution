@@ -5,9 +5,11 @@ As an upcoming ML engineer, I challenged myself to put my machine learning skill
     
 This repository is organized via 4 folders: Submissions, Data, Code, and Models. In the Submissions folder, you will see the various submissions that I have made. In the Data folder, you will find the necessary datasets as well as any other necessary information. In the Code folder, you will see my various Jupyter Notebooks & Python Scripts for the project. Finally, in the models folder, you will see the various models that I have saved.  
     
-The model is evaluated using the Root Mean Square Error, as this is the metric we are trying to minimize. My best model has a RMSE of __0.13757__. This currently ranks in the __top 43%__. In reality, my solution would be much higher because 1)some solutions have an unfeasible RMSE of 0.0 and 2)the solutions that have a RMSE of 0.00044 were achieved by either incorporating data from other sources besides the provided data or by matching the results of a similar challenge (i.e Boston Housing Prices). In other words, I suspect many of the 0.00044 scores were obtained by cheating. 
+The model is evaluated using the Root Mean Square Error, as this is the metric we are trying to minimize. My best model has a RMSE of __0.13757__. This currently ranks in the __top 43%__. In reality, my solution would be much higher for various reasons:
+* Some solutions have an unfeasible RMSE of 0.0. No Machine Learning model can predict with such accuracy. I suspect cheating occured here.
+* Some solutions have a RMSE of 0.00044. After further inspection of such solutions, I found that these solutions are invalid because of the fact that competitors are simply providing the results of answers to a similar challenge (Boston Housing Prices). Once again, I believe this is cheating since no real Machine Learning methodologies are being deployed.
 
-__Final Model:__ My best model is my tuned CatBoost Model.
+__Final Model:__ My best model is a tuned CatBoost Model.
   
 _Note:_ you may use my solution as a reference; however, I would strongly advise you to tackle this challenge on your own. The only way you will get better at machine learning is to practice it on your own. I do not condone nor am I responsible for any cheating that may occur as a result of this repository.
 ## Machine Learning Project Checklist:
@@ -37,6 +39,7 @@ In reality, there are infinite adjustments I could make to improve my score; how
 * Combine the Tuned-CatBoost model with some other models (Linear Regression & Support Vector Machines seem promising)
 * Feature Engineering: I could maybe cut down the categories for certain features.
 * Feature Importance: Further feature selection. Use my model to make better selections for features.
+* Maybe incorporate outside data like many credible top-ranked solutions.
 ## Closing Remarks
 This project was very enjoyable ,and I definitely learning a lot along the way! I would recommend this challenge to anyone who is looking to dive into Machine Learning & Data Science. It is quite simple, and the dataset is relatively small & not overwhelming. Overall, this challenge was really fun and a great learning experience!
 ## About the author
